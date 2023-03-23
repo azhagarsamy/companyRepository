@@ -42,7 +42,7 @@ public class CompanyController {
 
 	}
 
-	@GetMapping("/edid/{compId}")
+	@GetMapping("/edit/{compId}")
 	public ResponseEntity<CompanyBinding> edit(@PathVariable("compId") String compId) {
 		CompanyBinding edit = service.edit(compId);
 		return new ResponseEntity<CompanyBinding>(edit, HttpStatus.OK);

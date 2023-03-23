@@ -3,11 +3,15 @@ package com.azhagar.entities;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
+import com.azhagar.IdGenerator.StringPrefixedSequenceIdGenerator;
 
 import lombok.Data;
 
@@ -17,8 +21,11 @@ import lombok.Data;
 public class CompanyEntity {
 
 	@Id
-	@GeneratedValue(generator = "custom_compId")
-	@GenericGenerator(strategy = "com.azhagar.IdGenerator.CompanyIDGenerator", name = "custom_compId")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comp_seq")
+	@GenericGenerator(name = "comp_seq", strategy = "com.azhagar.IdGenerator.StringPrefixedSequenceIdGenerator", parameters = {
+			@Parameter(name = StringPrefixedSequenceIdGenerator.INCREMENT_PARAM, value = "50"),
+			@Parameter(name = StringPrefixedSequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "DL"),
+			@Parameter(name = StringPrefixedSequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%05d") })
 	private String compId;
 
 	@Column(name = "comp_name", length = 25, nullable = false, unique = true)
